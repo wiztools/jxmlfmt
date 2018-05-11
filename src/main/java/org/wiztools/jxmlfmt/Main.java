@@ -8,7 +8,7 @@ public class Main {
         try(Scanner s = new Scanner(System.in)) {
             s.useDelimiter("\\A");
             String xmlInput = s.hasNext() ? s.next() : "";
-            System.out.println(XMLFmt.fmt(xmlInput, 2));
+            System.out.println(XMLFmt.fmt(xmlInput, 4));
         }
     }
 }

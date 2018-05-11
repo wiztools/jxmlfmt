@@ -21,7 +21,6 @@ public class XMLFmt {
         String str = m.replaceAll((MatchResult mr) -> {
             // XML prolog / DOCTYPE / comment?
             if(mr.group().startsWith("<?xml") ||
-                    mr.group().startsWith("<!--") ||
                     mr.group().startsWith("<!DOCTYPE")) {
                 return mr.group() + NL;
             }
@@ -39,27 +38,28 @@ public class XMLFmt {
                 firstEntry = false;
             }
 
-            // if(mr.group().startsWith("<!--")) {
-            //     return mr.group() + NL;
-            // }
-            if(mr.group(3).equals("")) {
-                if(mr.group(1).equals("/")) {
+            if(mr.group(3).equals("")) { // Not an empty element:
+                if(mr.group(1).equals("/")) { // Closing element:
                     indentLevel--;
-                } else if(!mr.group(1).equals("!")) {
+                } else if(!mr.group(1).equals("!")) { // Not a comment / DOCTYPE:
                     indentLevel++;
                 }
             }
-            if(!prevItrClosing && mr.group(1).equals("/")) {
+            if(!prevItrClosing && mr.group(1).equals("/")) { // Both previous and current element closing ones:
                 sb.append(NL);
                 for(int i=0; i < indentLevel; i++) {
                     sb.append(indent);
                 }    
             }
+
+            // Mark closing element flag for next iteration:
             if(mr.group(1).equals("/")) {
                 prevItrClosing = true;
             } else {
                 prevItrClosing = false;
             }
+
+            // O/p the formatted element:
             sb.append("<").
                 append(mr.group(1)).
                 append(mr.group(2)).
@@ -67,6 +67,7 @@ public class XMLFmt {
                 append(">").
                 append(NL);
             
+            // Spacing for next iteration:
             for(int i=0; i < indentLevel-1; i++) {
                 sb.append(indent);
             }
@@ -85,5 +86,9 @@ public class XMLFmt {
             sb.append(" ");
         }
         return new XMLFmt().formatXML(xmls, sb.toString());
+    }
+
+    public static String fmt(String xmls) {
+        return fmt(xmls, 2);
     }
 }
