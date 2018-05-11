@@ -57,7 +57,7 @@ public class XMLFmtTest {
     public void testComments() throws IOException {
         String inXml = "<root><!--Permission--></root>";
         String computed = XMLFmt.fmtXML(inXml, "  ");
-        String expected = "<root>\n  <!--Permission-->\n  \n</root>\n";
+        String expected = "<root>\n<!--Permission-->\n  \n</root>\n";
         // TBD: remove newline *after* comment!
         System.out.println(computed);
         assertEquals(expected, computed);
