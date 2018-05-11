@@ -18,6 +18,12 @@ allprojects {
   }
 }
 
+jar {
+  manifest {
+    attributes 'Main-Class': 'org.wiztools.jxmlfmt.Main'
+  }
+}
+
 dependencies {
   testCompile 'junit:junit:4.+',
     'org.wiztools:commons-lib:0.4.2'

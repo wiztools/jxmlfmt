@@ -20,7 +20,8 @@ public class XMLFmt {
         
         String str = m.replaceAll((MatchResult mr) -> {
             // XML prolog?
-            if(mr.group().startsWith("<?xml")) {
+            if(mr.group().startsWith("<?xml") ||
+                    mr.group().startsWith("<!--")) {
                 return mr.group() + NL;
             }
 
@@ -37,9 +38,9 @@ public class XMLFmt {
                 firstEntry = false;
             }
 
-            if(mr.group().startsWith("<!--")) {
-                return mr.group() + NL;
-            }
+            // if(mr.group().startsWith("<!--")) {
+            //     return mr.group() + NL;
+            // }
             if(mr.group(3).equals("")) {
                 if(mr.group(1).equals("/")) {
                     indentLevel--;
@@ -74,7 +75,14 @@ public class XMLFmt {
         return str;
     }
 
-    public static String fmt(String xmls, String indent) {
-        return new XMLFmt().formatXML(xmls, indent);
+    public static String fmt(String xmls, int indent) {
+        if(indent <= 0) {
+            throw new IllegalArgumentException("Indent cannot be 0 or less.");
+        }
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i<indent; i++) {
+            sb.append(" ");
+        }
+        return new XMLFmt().formatXML(xmls, sb.toString());
     }
 }
