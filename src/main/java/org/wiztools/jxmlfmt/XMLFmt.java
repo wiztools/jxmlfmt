@@ -74,7 +74,7 @@ public class XMLFmt {
         return str;
     }
 
-    public static String fmtXML(String xmls, String indent) {
+    public static String fmt(String xmls, String indent) {
         return new XMLFmt().formatXML(xmls, indent);
     }
 }
