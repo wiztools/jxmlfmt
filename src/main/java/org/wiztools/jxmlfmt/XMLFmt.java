@@ -19,6 +19,12 @@ public class XMLFmt {
         Matcher m = RE.matcher(src);
         
         String str = m.replaceAll((MatchResult mr) -> {
+            // XML prolog?
+            if(mr.group().startsWith("<?xml")) {
+                return mr.group() + NL;
+            }
+
+            // Elements:
             StringBuilder sb = new StringBuilder();
             if(!firstEntry) {
                 if(prevItrClosing && !mr.group(1).equals("/")) {
@@ -29,6 +35,10 @@ public class XMLFmt {
                 }
             } else {
                 firstEntry = false;
+            }
+
+            if(mr.group().startsWith("<!--")) {
+                return mr.group() + NL;
             }
             if(mr.group(3).equals("")) {
                 if(mr.group(1).equals("/")) {
