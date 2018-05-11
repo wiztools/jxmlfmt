@@ -19,9 +19,10 @@ public class XMLFmt {
         Matcher m = RE.matcher(src);
         
         String str = m.replaceAll((MatchResult mr) -> {
-            // XML prolog?
+            // XML prolog / DOCTYPE / comment?
             if(mr.group().startsWith("<?xml") ||
-                    mr.group().startsWith("<!--")) {
+                    mr.group().startsWith("<!--") ||
+                    mr.group().startsWith("<!DOCTYPE")) {
                 return mr.group() + NL;
             }
 
