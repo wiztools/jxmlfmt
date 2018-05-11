@@ -1,0 +1,24 @@
+plugins {
+  id 'net.researchgate.release' version '2.4.0'
+}
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.9
+targetCompatibility = 1.9
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+}
+
+allprojects {
+  tasks.withType(JavaCompile) {
+    options.compilerArgs << '-Xlint:deprecation' << '-Xlint:unchecked'
+  }
+}
+
+dependencies {
+  testCompile 'junit:junit:4.+',
+    'org.wiztools:commons-lib:0.4.2'
+}
